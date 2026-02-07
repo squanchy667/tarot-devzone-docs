@@ -1,0 +1,28 @@
+tarot-devzone-docs/
+├── README.md                          # Project overview, architecture, quick start
+├── SUMMARY.md                         # Table of contents
+├── DIRECTORY_STRUCTURE.txt            # This file
+│
+├── developer/                         # Technical documentation
+│   ├── architecture.md                # System design, data flow, S3 layout
+│   ├── setup-guide.md                 # Local dev setup, install, run
+│   ├── api-reference.md               # All REST endpoints with examples
+│   ├── frontend.md                    # React components, hooks, routing
+│   ├── backend.md                     # Express routes, services, middleware
+│   ├── shared-types.md                # Enums, interfaces, Zod schemas
+│   ├── auth.md                        # JWT auth, roles, middleware
+│   ├── aws-infrastructure.md          # SAM template, Lambda, DynamoDB, S3
+│   └── deployment.md                  # Deploy scripts, checklist, rollback
+│
+├── product/                           # Product documentation
+│   ├── features.md                    # Feature list and descriptions
+│   ├── user-guide.md                  # How to use DevZone (for editors)
+│   └── roadmap.md                     # Current status and future plans
+│
+├── learn/                             # Getting started
+│   └── getting-started.md             # Overview, setup, key concepts
+│
+└── resources/                         # Reference materials
+    ├── tech-stack.md                  # All technologies used
+    ├── environment-vars.md            # All env vars explained
+    └── data-formats.md               # JSON schemas with examples
