@@ -106,6 +106,17 @@ POST /api/deploy/publish       → copy drafts/*.json → live/*.json
 - Publishing copies `drafts/` to `live/`
 - Game only reads from `live/`
 
+## CORS Configuration
+
+In production, the server uses origin reflection (`origin: true`) instead of a static origin list. This is required because `credentials: true` is incompatible with `origin: '*'` per the CORS spec.
+
+```typescript
+app.use(cors({
+  origin: true,       // reflects request origin
+  credentials: true,
+}));
+```
+
 ## Lambda Deployment
 
 The Express app is wrapped with `serverless-http`:
@@ -120,6 +131,8 @@ export const handler = serverless(app);
 ```
 
 This allows the same Express app to run locally and on Lambda without code changes.
+
+The Lambda package is built using a custom Makefile (see [Deployment](deployment.md#sam-build-workspace-package-handling)) to handle workspace dependency resolution.
 
 ## Related Documentation
 

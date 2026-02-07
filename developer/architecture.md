@@ -124,6 +124,9 @@ s3://tarot-battlegrounds-data-{env}/
 4. **React Query** — automatic cache invalidation after mutations, optimistic updates
 5. **S3 as database** — game data is just JSON files, no need for a traditional DB
 6. **Presigned URLs** — image uploads bypass Lambda's 6MB limit
+7. **Makefile SAM build** — handles npm workspace packages that can't resolve during isolated `npm install` in SAM's build process
+8. **Build-time API URL** — frontend bakes the API Gateway URL at build time via `VITE_API_URL`, since the frontend and API are on different origins in production
+9. **CORS origin reflection** — uses `origin: true` instead of a static allowlist, required for `credentials: true` compatibility
 
 ## Related Documentation
 

@@ -21,9 +21,20 @@ When deployed to Lambda, these same variables are set in the SAM template (`aws/
 
 ## Client Environment
 
-The client doesn't need environment variables in local development — Vite's proxy handles API routing.
+| Variable | Required | Description | Example |
+|----------|----------|-------------|---------|
+| `VITE_API_URL` | Build-time | API base URL baked into production build | `https://{api-id}.execute-api.{region}.amazonaws.com/api` |
 
-For deployed builds, the API URL is configured in the built JavaScript. The `deploy-devzone.sh` script handles this.
+In local development, Vite's proxy handles API routing (no env var needed). For deployed builds, the deploy script sets `VITE_API_URL` at build time after the API Gateway URL is known from CloudFormation outputs:
+
+```bash
+VITE_API_URL="${API_URL}/api" npm run build
+```
+
+In client code, the API base URL is resolved as:
+```typescript
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
+```
 
 ## Generating a JWT Secret
 

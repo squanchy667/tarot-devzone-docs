@@ -20,14 +20,19 @@ DevZone is **fully implemented** and ready for deployment. All core features are
 - Shared TypeScript types with Zod validation
 - React Query data fetching with cache invalidation
 
-## Next Steps
+## Completed (Post-Deploy)
 
-### Phase 1: Deploy and Test
-- Deploy infrastructure to AWS
-- Seed admin user
-- Export initial game data
-- Test full edit → publish → game loads flow
-- Verify CORS between DevZone and game CDN
+- Deployed infrastructure to AWS via SAM
+- Seeded admin user (DynamoDB)
+- Exported initial game data (30 cards, 4 synergies, config, theme) to S3
+- Frontend live on S3 static website hosting
+- API live on Lambda + API Gateway (HTTP API)
+- Fixed CORS for production (reflect origin mode)
+- Fixed SAM build for npm workspace packages (Makefile approach)
+- Build-time API URL injection for frontend (VITE_API_URL)
+- S3 public access bucket policy for frontend hosting
+
+## Next Steps
 
 ### Phase 2: Polish
 - Add bulk CSV import/export for cards

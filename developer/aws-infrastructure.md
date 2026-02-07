@@ -78,41 +78,60 @@ The `aws/template.yaml` defines all resources with parameterized environment nam
 Parameters:
   Environment:
     Type: String
-    Default: dev
+    Default: prod
   JwtSecret:
     Type: String
     NoEcho: true
-  CloudFrontDistributionId:
+  GameDistributionId:
     Type: String
+    Description: CloudFront distribution ID for game data
+    Default: none
 ```
+
+### Lambda Build Method
+
+The Lambda function uses `BuildMethod: makefile` with `CodeUri: ../` (repo root) to handle npm workspace dependencies. SAM's default Node.js builder can't resolve workspace packages, so a custom `Makefile` in the repo root handles packaging:
+
+```makefile
+build-DevZoneApi:
+    cp -r server/dist $(ARTIFACTS_DIR)/dist
+    sed '/@tarot-devzone\/shared/d' server/package.json > $(ARTIFACTS_DIR)/package.json
+    cd $(ARTIFACTS_DIR) && npm install --omit=dev
+    mkdir -p $(ARTIFACTS_DIR)/node_modules/@tarot-devzone/shared/dist
+    cp shared/package.json $(ARTIFACTS_DIR)/node_modules/@tarot-devzone/shared/
+    cp -r shared/dist/* $(ARTIFACTS_DIR)/node_modules/@tarot-devzone/shared/dist/
+```
+
+### Frontend Bucket Policy
+
+The frontend S3 bucket has public access enabled for static website hosting:
+
+```yaml
+PublicAccessBlockConfiguration:
+  BlockPublicAcls: false
+  BlockPublicPolicy: false
+  IgnorePublicAcls: false
+  RestrictPublicBuckets: false
+```
+
+With a bucket policy allowing `s3:GetObject` for all principals.
 
 ## Deploy Scripts
-
-### First-Time Setup
-
-```bash
-cd aws
-./setup-infra.sh
-```
-
-This runs:
-1. `sam build` — packages Lambda code
-2. `sam deploy --guided` — creates all AWS resources
-3. Prompts for JWT secret and CloudFront distribution ID
 
 ### Full Deployment
 
 ```bash
 cd aws
-./deploy-devzone.sh
+./deploy-devzone.sh prod
 ```
 
 This runs:
-1. Build shared types (`npm run build --workspace=shared`)
-2. Build server (`npm run build --workspace=server`)
-3. Build client (`npm run build --workspace=client`)
-4. `sam build && sam deploy`
-5. `aws s3 sync client/dist/ s3://tarot-devzone-frontend-{env}/`
+1. Build shared types (`cd shared && npm run build`)
+2. Build server (`cd server && npm run build`)
+3. `sam build && sam deploy` — creates/updates all AWS resources
+4. Gets API URL from CloudFormation outputs
+5. Build client with `VITE_API_URL="${API_URL}/api" npm run build`
+6. `aws s3 sync client/dist/ s3://tarot-devzone-frontend-{env}/`
 
 ## Cost Estimate
 

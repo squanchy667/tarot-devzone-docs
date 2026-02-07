@@ -2,7 +2,7 @@
 
 > Comprehensive documentation for Tarot DevZone — A web-based game data editor for Tarot Battlegrounds
 
-[![Status](https://img.shields.io/badge/Status-Ready%20to%20Deploy-green)]()
+[![Status](https://img.shields.io/badge/Status-Deployed-brightgreen)]()
 [![React](https://img.shields.io/badge/Frontend-React%20+%20Vite-blue)]()
 [![Express](https://img.shields.io/badge/Backend-Express%20+%20Lambda-orange)]()
 [![AWS](https://img.shields.io/badge/Infra-AWS%20SAM-yellow)]()
