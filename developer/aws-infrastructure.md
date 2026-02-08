@@ -39,8 +39,8 @@ DevZone uses AWS SAM (Serverless Application Model) for infrastructure-as-code. 
 
 | Bucket | Purpose |
 |--------|---------|
-| `tarot-battlegrounds-data-{env}` | Game data JSON + card images |
-| `tarot-devzone-frontend-{env}` | DevZone React app static files |
+| `tarot-battlegrounds-data-{env}` | Game data JSON + card images (public-read on `live/`) |
+| `tarot-devzone-frontend-{env}` | DevZone React app static files (public) |
 
 ### DynamoDB Tables
 
@@ -101,6 +101,26 @@ build-DevZoneApi:
     cp shared/package.json $(ARTIFACTS_DIR)/node_modules/@tarot-devzone/shared/
     cp -r shared/dist/* $(ARTIFACTS_DIR)/node_modules/@tarot-devzone/shared/dist/
 ```
+
+### Game Data Bucket Policy
+
+The game data bucket has public access enabled on the `live/` prefix so the Unity WebGL client can fetch JSON directly at startup:
+
+```yaml
+GameDataBucketPolicy:
+  Type: AWS::S3::BucketPolicy
+  Properties:
+    Bucket: !Ref GameDataBucket
+    PolicyDocument:
+      Statement:
+        - Sid: PublicReadLive
+          Effect: Allow
+          Principal: '*'
+          Action: 's3:GetObject'
+          Resource: !Sub '${GameDataBucket.Arn}/live/*'
+```
+
+Only `live/` is public. `drafts/` and `versions/` remain private (accessed only by the Lambda function).
 
 ### Frontend Bucket Policy
 

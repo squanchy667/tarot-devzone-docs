@@ -32,6 +32,15 @@ DevZone is **fully implemented** and ready for deployment. All core features are
 - Build-time API URL injection for frontend (VITE_API_URL)
 - S3 public access bucket policy for frontend hosting
 
+## Completed (Live Game Integration - Feb 7, 2026)
+
+- Wired Unity game to load data from S3 at startup via RuntimeDataLoader
+- Added 5 missing original cards to card pool (30 -> 35 cards)
+- Enabled public-read bucket policy on `live/*` prefix for game client access
+- Updated SAM template with `GameDataBucketPolicy` resource
+- CORS verified for CloudFront game origin
+- End-to-end pipeline: edit in DevZone -> publish to live -> game picks up changes on next load
+
 ## Next Steps
 
 ### Phase 2: Polish

@@ -2,7 +2,7 @@
 
 ## cards.json
 
-Array of card definitions. Stored at `live/cards.json` and `drafts/cards.json` on S3.
+Array of 35 card definitions. Stored at `live/cards.json` and `drafts/cards.json` on S3. The `live/` path is publicly readable (the Unity game fetches it at startup).
 
 ```json
 [
@@ -171,7 +171,7 @@ Stored in DynamoDB (`devzone-versions` table) and as `versions/vNNN/metadata.jso
 ## S3 Key Structure
 
 ```
-live/cards.json          — active card data (game reads this)
+live/cards.json          — active card data (public, game reads this)
 live/synergies.json      — active synergy data
 live/config.json         — active balance config
 live/theme.json          — active theme
